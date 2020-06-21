@@ -1,10 +1,10 @@
+#!/usr/bin/python3.6
 import pyaudio
 import wave
 import os
 import pickle
 import time
 from scipy.io.wavfile import read
-from IPython.display import Audio, display, clear_output
 from pydub import AudioSegment
 from main_functions import *
 

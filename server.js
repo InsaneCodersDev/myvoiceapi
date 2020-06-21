@@ -6,14 +6,14 @@ const { spawn } = require('child_process');
 var app = express();
 
 function runScript(){
-    return spawn('python',[
+    return spawn('python3',[
         "-u",
         path.join(__dirname, 'recognize.py'),
     ]);
 }
 
 function runScriptAddUser(name){
-    return spawn('python',[
+    return spawn('python3',[
         "-u",
         path.join(__dirname, 'add_user.py'),
         name

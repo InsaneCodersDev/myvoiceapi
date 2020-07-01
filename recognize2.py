@@ -11,7 +11,7 @@ from main_functions import *
 def recognize(filename):
     # Voice Authentication
     
-    modelpath = "./gmm_models/"
+    modelpath = "./gmm_models2/"
 
     gmm_files = [os.path.join(modelpath,fname) for fname in 
                 os.listdir(modelpath) if fname.endswith('.gmm')]

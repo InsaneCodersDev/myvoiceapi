@@ -10,7 +10,9 @@ from main_functions import *
 
 def recognize(filename):
     # Voice Authentication
-    
+    ambiguity = 4
+    threshold = 2.75
+
     modelpath = "./gmm_models2/"
 
     gmm_files = [os.path.join(modelpath,fname) for fname in 
@@ -45,7 +47,7 @@ def recognize(filename):
     count=0
     for i in range(len(models)):
         diff[i]=log_likelihood[pred]-log_likelihood[i]
-        if diff[i]>1.2:
+        if diff[i]>threshold:
             count=count+1
     print(diff)
     print(count)
@@ -54,7 +56,7 @@ def recognize(filename):
             print("Not Recognized! Try again...")
             return "Not identified"
     else:
-        if count==len(models)-1:
+        if count>=len(models)-ambiguity:
             print( "Recognized as - ", identity)
             return identity
         else:

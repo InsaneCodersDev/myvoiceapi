@@ -22,18 +22,21 @@ def add_user():
     source = "./voice_database/" + name
     dst = source + "/1.wav"	
     sound = AudioSegment.from_file(dst)
+    sound = sound.set_frame_rate(8000)
     sound.export(dst, format="wav")
 
     dst = source + "/2.wav"	
     sound = AudioSegment.from_file(dst)
+    sound = sound.set_frame_rate(8000)
     sound.export(dst, format="wav")
 
     dst = source + "/3.wav"	
     sound = AudioSegment.from_file(dst)
+    sound = sound.set_frame_rate(8000)
     sound.export(dst, format="wav")
 
     try:
-        dest =  "./gmm_models/"
+        dest =  "./gmm_models2/"
         count = 1
 
         for path in os.listdir(source):
@@ -54,7 +57,7 @@ def add_user():
 
             # when features of 3 files of speaker are concatenated, then do model training
             if count == 3:
-                gmm = GaussianMixture(n_components = 16, max_iter = 200, covariance_type='diag',n_init = 3)
+                gmm = GaussianMixture(n_components = 17, max_iter = 2100, covariance_type='spherical',n_init = 50)
                 gmm.fit(features)
 
                 # saving the trained gaussian model

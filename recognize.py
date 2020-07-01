@@ -20,7 +20,8 @@ def recognize():
     src = "./myoutput.wav"
     dst = "./test.wav"
     sound = AudioSegment.from_file(src)
-    sound.export(dst, format="wav", bitrate="128k")
+    sound = sound.set_frame_rate(8000)
+    sound.export(dst, format="wav")
 
 
     modelpath = "./gmm_models2/"

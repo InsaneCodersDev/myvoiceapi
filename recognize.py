@@ -20,10 +20,10 @@ def recognize():
     src = "./myoutput.wav"
     dst = "./test.wav"
     sound = AudioSegment.from_file(src)
-    sound.export(dst, format="wav")
+    sound.export(dst, format="wav", bitrate="128k")
 
 
-    modelpath = "./gmm_models/"
+    modelpath = "./gmm_models2/"
 
     gmm_files = [os.path.join(modelpath,fname) for fname in
                 os.listdir(modelpath) if fname.endswith('.gmm')]

@@ -7,6 +7,7 @@ import time
 from scipy.io.wavfile import read
 from pydub import AudioSegment
 from main_functions import *
+import sys
 
 def recognize():
     # Voice Authentication
@@ -15,10 +16,10 @@ def recognize():
     RATE = 44100
     CHUNK = 1024
     RECORD_SECONDS = 10
-    FILENAME = "./test.wav"
+    FILENAME = "./"+sys.argv[1]
 
-    src = "./myoutput.wav"
-    dst = "./test.wav"
+    src = FILENAME
+    dst = FILENAME
     sound = AudioSegment.from_file(src)
     sound = sound.set_frame_rate(8000)
     sound.export(dst, format="wav")

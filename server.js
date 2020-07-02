@@ -9,6 +9,7 @@ function runScript(){
     return spawn('python3',[
         "-u",
         path.join(__dirname, 'recognize.py'),
+	A
     ]);
 }
 
@@ -31,9 +32,12 @@ app.use((req, res, next)=>{
     next();
 })
 
+var A;
 
 app.post('/api', function(req, res){
-    var myFile = fs.createWriteStream("myoutput.wav");
+    A = Date.now()+".wav";
+    console.log(A);
+    var myFile = fs.createWriteStream(A);
     console.log('rcvd post request');
     req.pipe(myFile);
     const subprocess = runScript();

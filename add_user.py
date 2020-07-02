@@ -14,10 +14,10 @@ def add_user():
     name = sys.argv[1]
     #Voice authentication
     FORMAT = pyaudio.paInt16
-    CHANNELS = 2
-    RATE = 44100
+    CHANNELS = 1
+    RATE = 8000
     CHUNK = 1024
-    RECORD_SECONDS = 10
+    RECORD_SECONDS = 3
 
     source = "./voice_database/" + name
     dst = source + "/1.wav"	

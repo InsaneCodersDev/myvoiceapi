@@ -15,8 +15,11 @@ def recognize():
     CHANNELS = 2
     RATE = 44100
     CHUNK = 1024
-    RECORD_SECONDS = 10
+    RECORD_SECONDS = 3
     FILENAME = "./"+sys.argv[1]
+
+    thresh = 2.75
+    ambiguity = 4
 
     src = FILENAME
     dst = FILENAME
@@ -58,7 +61,7 @@ def recognize():
     count=0
     for i in range(len(models)):
         diff[i]=log_likelihood[pred]-log_likelihood[i]
-        if diff[i]>0.75:
+        if diff[i]>thresh:
             count=count+1
 
     # if voice not recognized than terminate the process
@@ -66,7 +69,7 @@ def recognize():
             print("Not Recognized! Try again...")
             return "Not identified"
     else:
-        if count==len(models)-1:
+        if count>=len(models)-ambiguity:
             print( "Recognized as - ", identity)
             return identity
         else:

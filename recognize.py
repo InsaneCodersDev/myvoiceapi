@@ -70,10 +70,12 @@ def recognize():
             return "Not identified"
     else:
         if count>=len(models)-ambiguity:
-            print( "Recognized as - ", identity)
+            print( "Recognized as - ", identity, speakers, diff)
+#            print(speakers,diff)
             return identity
         else:
-            print( "Not recognised try again")
+            print( "Not recognised try again", speakers, diff)
+#            print(speakers,diff)
             return "Not Identified"
 
 if __name__ == '__main__':

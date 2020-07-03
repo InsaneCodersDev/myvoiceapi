@@ -23,10 +23,10 @@ def recognize():
 
     src = FILENAME
     dst = FILENAME
-    sound = AudioSegment.from_file(src)
+    sound = AudioSegment.from_file(src, sample_width=2)
     sound = sound.set_frame_rate(8000)
     sound = sound.set_channels(1)
-    sound.export(dst, format="wav", bitrate="16k")
+    sound.export(dst, format="wav")
 
 
     modelpath = "./gmm_models2/"

@@ -23,9 +23,10 @@ def recognize():
 
     src = FILENAME
     dst = FILENAME
-    sound = AudioSegment.from_file(src, sample_width=2)
+    sound = AudioSegment.from_file(src)
     sound = sound.set_frame_rate(8000)
     sound = sound.set_channels(1)
+    sound = sound.set_sample_width(2)
     sound.export(dst, format="wav")
 
 

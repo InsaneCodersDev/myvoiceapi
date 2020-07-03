@@ -15,7 +15,7 @@ def recognize():
     CHANNELS = 2
     RATE = 44100
     CHUNK = 1024
-    RECORD_SECONDS = 3
+    RECORD_SECONDS = 1.5
     FILENAME = "./"+sys.argv[1]
 
     thresh = 2.75
@@ -72,7 +72,7 @@ def recognize():
             return "Not identified"
     else:
         if count>=len(models)-ambiguity:
-            print( "Recognized as - ", identity, speakers, diff)
+            print( "Recognized as - ", identity)
 #            print(speakers,diff)
             return identity
         else:

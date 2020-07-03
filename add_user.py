@@ -17,37 +17,42 @@ def add_user():
     CHANNELS = 1
     RATE = 8000
     CHUNK = 1024
-    RECORD_SECONDS = 3
+    RECORD_SECONDS = 1.5
 
     source = "./voice_database/" + name
     dst = source + "/1.wav"	
     sound = AudioSegment.from_file(dst)
     sound = sound.set_frame_rate(8000)
     sound = sound.set_channels(1)
+    sound = sound.set_sample_width(2)
     sound.export(dst, format="wav")
 
     dst = source + "/2.wav"	
     sound = AudioSegment.from_file(dst)
     sound = sound.set_frame_rate(8000)
     sound = sound.set_channels(1)
+    sound = sound.set_sample_width(2)
     sound.export(dst, format="wav")
 
     dst = source + "/3.wav"	
     sound = AudioSegment.from_file(dst)
     sound = sound.set_frame_rate(8000)
     sound = sound.set_channels(1)
+    sound = sound.set_sample_width(2)
     sound.export(dst, format="wav")
 
     dst = source + "/4.wav"     
     sound = AudioSegment.from_file(dst)
     sound = sound.set_frame_rate(8000)
     sound = sound.set_channels(1)
+    sound = sound.set_sample_width(2)
     sound.export(dst, format="wav")
 
     dst = source + "/5.wav"     
     sound = AudioSegment.from_file(dst)
     sound = sound.set_frame_rate(8000)
     sound = sound.set_channels(1)
+    sound = sound.set_sample_width(2)
     sound.export(dst, format="wav")
 
 

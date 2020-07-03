@@ -23,26 +23,31 @@ def add_user():
     dst = source + "/1.wav"	
     sound = AudioSegment.from_file(dst)
     sound = sound.set_frame_rate(8000)
+    sound = sound.set_channels(1)
     sound.export(dst, format="wav")
 
     dst = source + "/2.wav"	
     sound = AudioSegment.from_file(dst)
     sound = sound.set_frame_rate(8000)
+    sound = sound.set_channels(1)
     sound.export(dst, format="wav")
 
     dst = source + "/3.wav"	
     sound = AudioSegment.from_file(dst)
     sound = sound.set_frame_rate(8000)
+    sound = sound.set_channels(1)
     sound.export(dst, format="wav")
 
     dst = source + "/4.wav"     
     sound = AudioSegment.from_file(dst)
     sound = sound.set_frame_rate(8000)
+    sound = sound.set_channels(1)
     sound.export(dst, format="wav")
 
     dst = source + "/5.wav"     
     sound = AudioSegment.from_file(dst)
     sound = sound.set_frame_rate(8000)
+    sound = sound.set_channels(1)
     sound.export(dst, format="wav")
 
 

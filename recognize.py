@@ -15,7 +15,7 @@ def recognize():
     CHANNELS = 2
     RATE = 44100
     CHUNK = 1024
-    RECORD_SECONDS = 1.5
+    RECORD_SECONDS = 2
     FILENAME = "./"+sys.argv[1]
 
     thresh = 2.75
@@ -76,7 +76,7 @@ def recognize():
 #            print(speakers,diff)
             return identity
         else:
-            print( "Not recognised try again", speakers, diff)
+            print( "Not recognised try again")
 #            print(speakers,diff)
             return "Not Identified"
 

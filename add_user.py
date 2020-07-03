@@ -79,7 +79,7 @@ def add_user():
 
             # when features of 3 files of speaker are concatenated, then do model training
             if count == 5:
-                gmm = GaussianMixture(n_components = 17, max_iter = 2100, covariance_type='spherical',n_init = 50)
+                gmm = GaussianMixture(n_components = 12, max_iter = 2000, covariance_type='spherical',n_init = 50, random_state=39)
                 gmm.fit(features)
 
                 # saving the trained gaussian model

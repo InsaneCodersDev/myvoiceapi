@@ -74,10 +74,12 @@ def recognize():
         if count>=len(models)-ambiguity:
             print( "Recognized as - ", identity)
 #            print(speakers,diff)
+            os.remove(FILENAME)
             return identity
         else:
             print( "Not recognised try again")
 #            print(speakers,diff)
+            os.remove(FILENAME)
             return "Not Identified"
 
 if __name__ == '__main__':

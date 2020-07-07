@@ -49,6 +49,12 @@ app.get("/db/:email", function (req, res) {
   });
 });
 
+app.get("/photo/:username", function (req, res) {
+  db.findOne({ username: req.params.username }).then((user) => {
+    res.sendFile(__dirname + "/photos/" + user.image_url);
+  });
+});
+
 var A;
 
 app.post("/api", function (req, res) {

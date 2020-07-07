@@ -44,9 +44,8 @@ app.use((req, res, next) => {
 });
 
 app.get("/db/:email", function (req, res) {
-  console.log(req.params.email);
   db.findOne({ email: req.params.email }).then((user) => {
-    res.send(user.image_url);
+    res.send(user);
   });
 });
 

@@ -43,11 +43,18 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/db/:email", function (req, res) {
-  db.findOne({ email: req.params.email }).then((user) => {
+app.get("/db/:username", function (req, res) {
+  db.findOne({ username: req.params.username }).then((user) => {
     res.send(user);
   });
 });
+
+app.get("/db/email/:email", function (req, res) {
+  db.findOne({ email: req.params.email }).then((email) => {
+    res.send(email);
+  });
+});
+
 
 app.get("/photo/:username", function (req, res) {
   db.findOne({ username: req.params.username }).then((user) => {

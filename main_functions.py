@@ -21,7 +21,7 @@ import python_speech_features as mfcc
 #Calculate and returns the delta of given feature vector matrix
 def calculate_delta(array):
     rows,cols = array.shape
-    deltas = np.zeros((rows,20))
+    deltas = np.zeros((rows,15))
     N = 2
     for i in range(rows):
         index = []
@@ -42,7 +42,7 @@ def calculate_delta(array):
 
 #convert audio to mfcc features
 def extract_features(audio,rate):    
-    mfcc_feat = mfcc.mfcc(audio,rate, 0.025, 0.01,20,appendEnergy = True, nfft=1103)
+    mfcc_feat = mfcc.mfcc(audio,rate, 0.030, 0.02,15,appendEnergy = True, nfft=1103)
     mfcc_feat = preprocessing.scale(mfcc_feat)
     delta = calculate_delta(mfcc_feat)
 

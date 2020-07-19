@@ -41,19 +41,19 @@ def add_user():
     sound = sound.set_sample_width(2)
     sound.export(dst, format="wav")
 
-    dst = source + "/4.wav"     
-    sound = AudioSegment.from_file(dst)
-    sound = sound.set_frame_rate(8000)
-    sound = sound.set_channels(1)
-    sound = sound.set_sample_width(2)
-    sound.export(dst, format="wav")
+#    dst = source + "/4.wav"     
+#    sound = AudioSegment.from_file(dst)
+#    sound = sound.set_frame_rate(8000)
+#    sound = sound.set_channels(1)
+#    sound = sound.set_sample_width(2)
+#    sound.export(dst, format="wav")
 
-    dst = source + "/5.wav"     
-    sound = AudioSegment.from_file(dst)
-    sound = sound.set_frame_rate(8000)
-    sound = sound.set_channels(1)
-    sound = sound.set_sample_width(2)
-    sound.export(dst, format="wav")
+#    dst = source + "/5.wav"     
+#    sound = AudioSegment.from_file(dst)
+#    sound = sound.set_frame_rate(8000)
+#    sound = sound.set_channels(1)
+#    sound = sound.set_sample_width(2)
+#    sound.export(dst, format="wav")
 
 
 
@@ -78,7 +78,7 @@ def add_user():
                 features = np.vstack((features, vector))
 
             # when features of 3 files of speaker are concatenated, then do model training
-            if count == 5:
+            if count == 3:
                 gmm = GaussianMixture(n_components = 12, max_iter = 2000, covariance_type='spherical',n_init = 50, random_state=39)
                 gmm.fit(features)
 

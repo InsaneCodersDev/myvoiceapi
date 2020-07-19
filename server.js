@@ -6,7 +6,19 @@ const path = require("path");
 const { spawn } = require("child_process");
 var app = express();
 const db = require("./user");
+const Exception = require("./Exceptions");
+var multer = require("multer");
+// Storage Strategy
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
 
+const upload = multer({ storage: storage });
 //connect to mongodb
 mongoose.connect(
   "mongodb+srv://ovi:ovi@cluster0-ivsyl.mongodb.net/Attendnace?retryWrites=true&w=majority",
@@ -55,10 +67,28 @@ app.get("/db/email/:email", function (req, res) {
   });
 });
 
-
 app.get("/photo/:username", function (req, res) {
   db.findOne({ username: req.params.username }).then((user) => {
     res.sendFile(__dirname + "/photos/" + user.image_url);
+  });
+});
+
+app.post("/db/exception/add", upload.single("exceptionfile"), function (
+  req,
+  res
+) {
+  console.log(req.file);
+  console.log(req.body);
+  const exception = new Exception({
+    username: req.body.username,
+    name: req.body.name,
+    subject: req.body.subject,
+    message: req.body.message,
+    proof: req.file.originalname,
+  });
+  exception.save().then(() => {
+    console.log("Upload Hogaya");
+    res.send("Form Submitted");
   });
 });
 

@@ -2,12 +2,12 @@ var express = require("express");
 var fs = require("fs");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const path = require("path");
 const { spawn } = require("child_process");
 var app = express();
 const db = require("./user");
 const Exception = require("./Exceptions");
 var multer = require("multer");
+var path = require('path');
 // Storage Strategy
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -69,7 +69,9 @@ app.get("/db/email/:email", function (req, res) {
 
 app.get("/photo/:username", function (req, res) {
   db.findOne({ username: req.params.username }).then((user) => {
-    res.sendFile(__dirname + "/photos/" + user.image_url);
+var x = path.join(__dirname+"../../VoidAdmin/img/");
+    res.sendFile(x + user.image_url);
+console.log(x);
   });
 });
 

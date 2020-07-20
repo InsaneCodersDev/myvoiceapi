@@ -18,7 +18,7 @@ def recognize():
     RECORD_SECONDS = 2
     FILENAME = "./"+sys.argv[1]
 
-    thresh = 2.2
+    thresh = 0
     ambiguity = 4
 
     src = FILENAME

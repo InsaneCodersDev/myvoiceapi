@@ -75,6 +75,12 @@ console.log(x);
   });
 });
 
+app.get("/audio/:username/:count", function (req, res) {
+var x = path.join(__dirname+"/voice_database/"+req.params.username+"/"+req.params.count+".wav");
+    res.sendFile(x);
+});
+
+
 app.post("/db/exception/add", upload.single("exceptionfile"), function (
   req,
   res

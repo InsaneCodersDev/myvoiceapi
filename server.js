@@ -6,12 +6,13 @@ const { spawn } = require("child_process");
 var app = express();
 const db = require("./user");
 const Exception = require("./Exceptions");
+const Attendance = require("/Attendance");
 var multer = require("multer");
-var path = require('path');
+var path = require("path");
 // Storage Strategy
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname+"../../VoidAdmin/uploads/"));
+    cb(null, path.join(__dirname + "../../VoidAdmin/uploads/"));
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -69,21 +70,52 @@ app.get("/db/email/:email", function (req, res) {
 
 app.get("/photo/:username", function (req, res) {
   db.findOne({ username: req.params.username }).then((user) => {
-var x = path.join(__dirname+"../../VoidAdmin/img/");
+    var x = path.join(__dirname + "../../VoidAdmin/img/");
     res.sendFile(x + user.image_url);
-console.log(x);
+    console.log(x);
   });
 });
 
 app.get("/audio/:username/:count", function (req, res) {
-var x = path.join(__dirname+"/voice_database/"+req.params.username+"/"+req.params.count+".wav");
-    res.sendFile(x);
+  var x = path.join(
+    __dirname +
+      "/voice_database/" +
+      req.params.username +
+      "/" +
+      req.params.count +
+      ".wav"
+  );
+  res.sendFile(x);
 });
 
 app.get("/mark/:username", function (req, res) {
+  let dates = new Date();
 
+  const username = req.params.username;
+  const year = dates.getFullYear();
+  const interface = "Web App";
+  const month = dates.getMonth();
+  const date = dates.getDate();
+  const time = dates.getHours() + ":" + dates.getMinutes();
+  var attendance = true;
+
+  const newAttendance = new Attendance({
+    username,
+    date,
+    month,
+    year,
+    time,
+    interface,
+    attendance,
+  });
+
+  newAttendance
+    .save()
+    .then((user) => {
+      console.log("hogaya save");
+    })
+    .catch((err) => console.log(err));
 });
-
 
 app.post("/db/exception/add", upload.single("exceptionfile"), function (
   req,

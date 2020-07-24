@@ -80,6 +80,10 @@ var x = path.join(__dirname+"/voice_database/"+req.params.username+"/"+req.param
     res.sendFile(x);
 });
 
+app.get("/mark/:username", function (req, res) {
+
+});
+
 
 app.post("/db/exception/add", upload.single("exceptionfile"), function (
   req,

@@ -10,8 +10,8 @@ from main_functions import *
 
 def recognize(filename):
     # Voice Authentication
-    ambiguity = 4
-    threshold = 2.75
+    ambiguity = 2
+    threshold = 2
 
     modelpath = "./gmm_models2/"
 

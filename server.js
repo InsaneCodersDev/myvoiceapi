@@ -6,7 +6,7 @@ const { spawn } = require("child_process");
 var app = express();
 const db = require("./user");
 const Exception = require("./Exceptions");
-const Attendance = require("/Attendance");
+const Attendance = require("./Attendance");
 var multer = require("multer");
 var path = require("path");
 // Storage Strategy
@@ -89,32 +89,47 @@ app.get("/audio/:username/:count", function (req, res) {
 });
 
 app.get("/mark/:username", function (req, res) {
-  let dates = new Date();
+ let dates = new Date();
 
-  const username = req.params.username;
-  const year = dates.getFullYear();
-  const interface = "Web App";
-  const month = dates.getMonth();
-  const date = dates.getDate();
-  const time = dates.getHours() + ":" + dates.getMinutes();
-  var attendance = true;
+const username  = req.params.username;
+const year = dates.getFullYear();
+const interface = 'Web App';
+const month = dates.getMonth();
+const date = dates.getDate();
+var hr= dates.getHours() + 5 ;
+var minutes = dates.getMinutes() + 30;
+if(minutes >= 60){
+    hr = hr+1;
+    minutes = minutes - 60;
+    if(hr >= 24){
+      hr = hr - 24;
+ }
+}
 
-  const newAttendance = new Attendance({
-    username,
-    date,
-    month,
-    year,
-    time,
-    interface,
-    attendance,
-  });
+const time = hr + ':' + minutes;
+var attendance = true;
 
-  newAttendance
-    .save()
-    .then((user) => {
-      console.log("hogaya save");
-    })
-    .catch((err) => console.log(err));
+Attendance.find({username:username,date: date })
+        .then(user=>{
+            console.log(user);
+            if(user.length === 0){
+                const newAttendance = new Attendance({
+                    username,
+                    date,
+                    month,
+                    year,
+                    time,
+                    interface,
+                    attendance
+                });
+                newAttendance.save()
+                    .then(user=>{
+                        res.send('Attendance Marked');
+                    }).catch(err=>console.log(err));
+            }else{
+                res.send('Attendance Is Already Marked');
+            }
+        }).catch(err=>console.log(err));
 });
 
 app.post("/db/exception/add", upload.single("exceptionfile"), function (

@@ -89,47 +89,51 @@ app.get("/audio/:username/:count", function (req, res) {
 });
 
 app.get("/mark/:username", function (req, res) {
- let dates = new Date();
+  let dates = new Date();
 
-const username  = req.params.username;
-const year = dates.getFullYear();
-const interface = 'Web App';
-const month = dates.getMonth();
-const date = dates.getDate();
-var hr= dates.getHours() + 5 ;
-var minutes = dates.getMinutes() + 30;
-if(minutes >= 60){
-    hr = hr+1;
+  const username = req.params.username;
+  const year = dates.getFullYear();
+  const interface = "Web App";
+  const month = dates.getMonth() + 1;
+  const date = dates.getDate();
+  var hr = dates.getHours() + 5;
+  var minutes = dates.getMinutes() + 30;
+  if (minutes >= 60) {
+    hr = hr + 1;
     minutes = minutes - 60;
-    if(hr >= 24){
+    if (hr >= 24) {
       hr = hr - 24;
- }
-}
+      date = date + 1;
+    }
+  }
 
-const time = hr + ':' + minutes;
-var attendance = true;
+  const time = hr + ":" + minutes;
+  var attendance = true;
 
-Attendance.find({username:username,date: date })
-        .then(user=>{
-            console.log(user);
-            if(user.length === 0){
-                const newAttendance = new Attendance({
-                    username,
-                    date,
-                    month,
-                    year,
-                    time,
-                    interface,
-                    attendance
-                });
-                newAttendance.save()
-                    .then(user=>{
-                        res.send('Attendance Marked');
-                    }).catch(err=>console.log(err));
-            }else{
-                res.send('Attendance Is Already Marked');
-            }
-        }).catch(err=>console.log(err));
+  Attendance.find({ username: username, date: date })
+    .then((user) => {
+      console.log(user);
+      if (user.length === 0) {
+        const newAttendance = new Attendance({
+          username,
+          date,
+          month,
+          year,
+          time,
+          interface,
+          attendance,
+        });
+        newAttendance
+          .save()
+          .then((user) => {
+            res.send("Attendance Marked");
+          })
+          .catch((err) => console.log(err));
+      } else {
+        res.send("Attendance Is Already Marked");
+      }
+    })
+    .catch((err) => console.log(err));
 });
 
 app.post("/db/exception/add", upload.single("exceptionfile"), function (
@@ -202,6 +206,31 @@ app.get("/adduser/:name", function (req, res) {
   subprocess.on("close", () => {
     console.log("Closed");
   });
+});
+
+app.get("/Attendance/:username", function (req, res) {
+  date = new Date();
+  month = date.getMonth() + 1;
+  d = date.getDate();
+  day = date.getDay();
+  Attendance.find({ username: req.params.username, month: month })
+    .then((atd) => {
+      var dates = [];
+      var week = [];
+      var attendance = [];
+      for (var i = 0; i < atd.length; i++) {
+        dates.push(atd[i].date);
+        attendance.push(atd[i].attendance);
+      }
+      for (var i = day; i >= 1; i--) {
+        week.push(attendance[attendance.length - i - 1]);
+      }
+      if (dates[dates.length - 1] === d) {
+        week.push(attendance[attendance.length - 1]);
+      }
+      res.send({ dates, week, attendance });
+    })
+    .catch((err) => console.log(err));
 });
 
 app.listen(5000);

@@ -9,6 +9,7 @@ const Exception = require("./Exceptions");
 const Attendance = require("./Attendance");
 var multer = require("multer");
 var path = require("path");
+var Otp = require("./Otp");
 // Storage Strategy
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -77,9 +78,14 @@ app.get("/photo/:username", function (req, res) {
 });
 
 app.get("/otp/:username", function (req, res) {
-
+  Otp.findOne({ username: req.params.username }).then((user) => {
+    if (user === null) {
+      res.send("A");
+    } else {
+      res.send(user.otp.toString());
+    }
+  });
 });
-
 
 app.get("/audio/:username/:count", function (req, res) {
   var x = path.join(
@@ -108,11 +114,10 @@ app.get("/mark/:username", function (req, res) {
     minutes = minutes - 60;
   }
 
-    if (hr >= 24) {
-      hr = hr - 24;
-      date = date + 1;
-    }
-
+  if (hr >= 24) {
+    hr = hr - 24;
+    date = date + 1;
+  }
 
   const time = hr + ":" + minutes;
   var attendance = true;
@@ -216,26 +221,30 @@ app.get("/adduser/:name", function (req, res) {
 
 app.get("/Attendance/:username", function (req, res) {
   date = new Date();
-month = date.getMonth() + 1;
-d  = date.getDate();
-day = date.getDay()+1;
-Attendance.find({username:req.params.username, month:month})
-        .then(atd=>{
-            var dates = [];
-            var week = [];
-            var attendance = [];
-            for(var i=0;i<atd.length;i++){
-                dates.push(atd[i].date);
-                attendance.push(atd[i].attendance);
-            }
-            Attendance.find({username:req.params.username,month:month,date:{$gt:d-day}})
-                .then(a=>{
-                    for(var i=0;i<a.length;i++){
-                        week.push(a[i].attendance);
-                    }
-                    res.send({week,attendance,dates});
-                })
-        }).catch(err=>console.log(err));
+  month = date.getMonth() + 1;
+  d = date.getDate();
+  day = date.getDay() + 1;
+  Attendance.find({ username: req.params.username, month: month })
+    .then((atd) => {
+      var dates = [];
+      var week = [];
+      var attendance = [];
+      for (var i = 0; i < atd.length; i++) {
+        dates.push(atd[i].date);
+        attendance.push(atd[i].attendance);
+      }
+      Attendance.find({
+        username: req.params.username,
+        month: month,
+        date: { $gt: d - day },
+      }).then((a) => {
+        for (var i = 0; i < a.length; i++) {
+          week.push(a[i].attendance);
+        }
+        res.send({ week, attendance, dates });
+      });
+    })
+    .catch((err) => console.log(err));
 });
 
 app.listen(5000);

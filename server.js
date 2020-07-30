@@ -77,8 +77,7 @@ app.get("/photo/:username", function (req, res) {
 });
 
 app.get("/otp/:username", function (req, res) {
-  
-  });
+
 });
 
 

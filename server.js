@@ -76,6 +76,12 @@ app.get("/photo/:username", function (req, res) {
   });
 });
 
+app.get("/otp/:username", function (req, res) {
+  
+  });
+});
+
+
 app.get("/audio/:username/:count", function (req, res) {
   var x = path.join(
     __dirname +
@@ -95,21 +101,22 @@ app.get("/mark/:username", function (req, res) {
   const year = dates.getFullYear();
   const interface = "Web App";
   const month = dates.getMonth() + 1;
-  const date = dates.getDate();
+  var date = dates.getDate();
   var hr = dates.getHours() + 5;
   var minutes = dates.getMinutes() + 30;
   if (minutes >= 60) {
     hr = hr + 1;
     minutes = minutes - 60;
+  }
+
     if (hr >= 24) {
       hr = hr - 24;
       date = date + 1;
     }
-  }
+
 
   const time = hr + ":" + minutes;
   var attendance = true;
-
   Attendance.find({ username: username, date: date })
     .then((user) => {
       console.log(user);
@@ -210,27 +217,26 @@ app.get("/adduser/:name", function (req, res) {
 
 app.get("/Attendance/:username", function (req, res) {
   date = new Date();
-  month = date.getMonth() + 1;
-  d = date.getDate();
-  day = date.getDay();
-  Attendance.find({ username: req.params.username, month: month })
-    .then((atd) => {
-      var dates = [];
-      var week = [];
-      var attendance = [];
-      for (var i = 0; i < atd.length; i++) {
-        dates.push(atd[i].date);
-        attendance.push(atd[i].attendance);
-      }
-      for (var i = day; i >= 1; i--) {
-        week.push(attendance[attendance.length - i - 1]);
-      }
-      if (dates[dates.length - 1] === d) {
-        week.push(attendance[attendance.length - 1]);
-      }
-      res.send({ dates, week, attendance });
-    })
-    .catch((err) => console.log(err));
+month = date.getMonth() + 1;
+d  = date.getDate();
+day = date.getDay()+1;
+Attendance.find({username:req.params.username, month:month})
+        .then(atd=>{
+            var dates = [];
+            var week = [];
+            var attendance = [];
+            for(var i=0;i<atd.length;i++){
+                dates.push(atd[i].date);
+                attendance.push(atd[i].attendance);
+            }
+            Attendance.find({username:req.params.username,month:month,date:{$gt:d-day}})
+                .then(a=>{
+                    for(var i=0;i<a.length;i++){
+                        week.push(a[i].attendance);
+                    }
+                    res.send({week,attendance,dates});
+                })
+        }).catch(err=>console.log(err));
 });
 
 app.listen(5000);

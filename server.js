@@ -10,6 +10,7 @@ const Attendance = require("./Attendance");
 var multer = require("multer");
 var path = require("path");
 var Otp = require("./Otp");
+var Grant = require("./Granted");
 // Storage Strategy
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -68,6 +69,35 @@ app.get("/db/email/:email", function (req, res) {
     res.send(email);
   });
 });
+
+app.get("/grant/:username", function (req, res) {
+  Grant.findOne({username:req.params.username,type:"Exception",days:{$ne:0}})
+    .then(user=>{
+        if(user===null){
+            res.send("no grant");
+        }else{
+            date = new Date();
+            d = date.getDate();
+            m = date.getMonth()+1;
+            ed = user.duration.getDate();
+            em = user.duration.getMonth()+1;
+
+            if(m<em){
+                res.send("under grant");
+            }else if(m===em){
+                if(d<=ed){
+                    res.send("under grant");
+                }else{
+                    res.send("no grant");
+                }
+            }else{
+                res.send("no grant");
+            }
+            }
+
+    }).catch(err=>console.log(err));
+});
+
 
 app.get("/photo/:username", function (req, res) {
   db.findOne({ username: req.params.username }).then((user) => {
